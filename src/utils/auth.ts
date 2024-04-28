@@ -1,7 +1,7 @@
-import { id } from './../../node_modules/next-auth/client/__tests__/helpers/mocks.d';
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { NextAuthOptions, User, getServerSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import FacebookProvider from "next-auth/providers/facebook";
 import { prisma } from "./connect";
 
 declare module "next-auth" {
@@ -25,9 +25,13 @@ export const authOptions: NextAuthOptions = {
   },
   providers: [
     GoogleProvider({
-
       clientId: process.env.GOOGLE_ID!,
       clientSecret: process.env.GOOGLE_SECRET!,
+    })
+    ,
+    FacebookProvider({
+      clientId: process.env.FACEBOOK_ID!,
+      clientSecret: process.env.FACEBOOK_SECRET!,
     }),
   ],
   callbacks: {

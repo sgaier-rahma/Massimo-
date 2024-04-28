@@ -8,11 +8,12 @@ import React, { useEffect, useState } from "react";
 const CartPage = () => {
   const { products, totalItems, totalPrice, removeFromCart } = useCartStore();
   const { data: session } = useSession();
-  const [paymentMethod, setPaymentMethod] = useState("Cash on Delivery");
+  const [paymentMethod, setPaymentMethod] = useState("Online Payment");
   const [orderType, setOrderType] = useState("Delivery");
   const [pickupTime, setPickupTime] = useState("00:00");
   const [phoneNumber, setPhoneNumber] = useState("")
   const [address, setAddress] = useState("")
+  const [Error, setError] = useState("")
   const router = useRouter();
 
   useEffect(() => {
@@ -31,6 +32,21 @@ const CartPage = () => {
         const pickupDateTime = new Date(
           `${currentDate.toISOString().split("T")[0]}T${pickupTime}`
         );
+        if (orderType === "Delivery" && paymentMethod === "Cash on Delivery" && address === "") {
+          setError("Please enter your fill your address")
+          return
+        }
+
+        if (orderType === "Pickup" && pickupTime === "00:00") {
+          setError("Please enter a pickup time")
+          return
+        }
+
+        if (orderType === "Pickup" && phoneNumber === "") {
+          setError("Please enter your phone number")
+          return
+        }
+
         const res = await fetch("http://localhost:3000/api/orders", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -47,6 +63,7 @@ const CartPage = () => {
           }),
         });
         const data = await res.json()
+        console.log( orderType === "Delivery" && paymentMethod === "Online Payment")
         if (orderType === "Delivery" && paymentMethod === "Online Payment") {
           router.push(`/pay/${data.id}`)
           return
@@ -160,6 +177,7 @@ const CartPage = () => {
           </div>
         )}
 
+        <span className="text-red-500">{Error}</span>
         <button
           className="bg-red-500 text-white p-3 rounded-md w-1/2 self-end"
           onClick={handleCheckout}

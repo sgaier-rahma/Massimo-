@@ -71,7 +71,7 @@ const AddPage = () => {
       if (!restaurant) return;
       try {
         const data = await getCategories(restaurant["slug"]);
- 
+
         setCategories(data); // Log the updated categories data here
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -143,7 +143,6 @@ const AddPage = () => {
       console.error(err);
     }
   };
- 
 
   return (
     <div className="p-4 lg:px-20 xl:px-40 flex items-center justify-center text-red-500">
@@ -239,7 +238,10 @@ const AddPage = () => {
             />
             <button
               className="bg-gray-500 p-2 text-white"
-              onClick={() => setOptions((prev) => [...prev, option])}
+              onClick={(e) => {
+                e.preventDefault();
+                setOptions((prev) => [...prev, option])}
+              }
             >
               Add Option
             </button>
@@ -249,11 +251,12 @@ const AddPage = () => {
               <div
                 key={opt.title}
                 className="p-2  rounded-md cursor-pointer bg-gray-200 text-gray-400"
-                onClick={() =>
+                onClick={(e) => {
+                 
                   setOptions((prev) =>
                     prev.filter((item) => item.title !== opt.title)
                   )
-                }
+                }}
               >
                 <span>{opt.title}</span>
                 <span className="text-xs"> (+ ${opt.additionalPrice})</span>

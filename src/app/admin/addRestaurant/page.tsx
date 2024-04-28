@@ -35,7 +35,9 @@ const getUsers = async () => {
 const AddRestaurantPage = () => {
   const { data: session, status } = useSession();
   const [users, setUsers] = useState<UserType[]>([]);
-  const [selectedCoordinates, setSelectedCoordinates] = useState([0,0]);
+  const [selectedCoordinates, setSelectedCoordinates] = useState([
+    0, 0
+  ]);
   const [inputs, setInputs] = useState<Inputs>({
     title: "",
     desc: "",
@@ -249,7 +251,6 @@ const AddRestaurantPage = () => {
         </button>
       </form >
     </div >
-  
   );
 };
 

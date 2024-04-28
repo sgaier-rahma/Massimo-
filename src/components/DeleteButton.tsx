@@ -13,7 +13,7 @@ const DeleteButton = ({ id }: { id: string }) => {
     return <p>Loading...</p>;
   }
 
-  if (status === "unauthenticated" || !session?.user.type === "admin") {
+  if (status === "unauthenticated" || session?.user.type === "user")  {
     return;
   }
 

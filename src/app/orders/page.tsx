@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 
 const OrdersPage = () => {
   const { data: session, status } = useSession();
+
   const router = useRouter();
 
   if (status === "unauthenticated") {
@@ -27,7 +28,7 @@ const OrdersPage = () => {
   const mutation = useMutation({
     mutationFn: ({ id, status }: { id: string; status: string }) => {
       return fetch(`http://localhost:3000/api/orders/${id}`, {
-        method: "PUT",
+        method:"PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -46,11 +47,10 @@ const OrdersPage = () => {
     const status = input.value;
 
     mutation.mutate({ id, status });
-    toast.success("The order status has been changed!");
+    toast.success("The order status has been changed!")
   };
 
   if (isLoading || status === "loading") return "Loading...";
-  if (error) return "An error occurred: " + error.message;
 
   return (
     <div className="p-4 lg:px-20 xl:px-40">
@@ -66,22 +66,15 @@ const OrdersPage = () => {
         </thead>
         <tbody>
           {data.map((item: OrderType) => (
-            <tr
-              className={`${item.status !== "delivered" && "bg-red-50"}`}
-              key={item.id}
-            >
+            <tr className={`${item.status !== "delivered" && "bg-red-50"}`} key={item.id}>
               <td className="hidden md:block py-6 px-1">{item.id}</td>
               <td className="py-6 px-1">
                 {item.createdAt.toString().slice(0, 10)}
               </td>
               <td className="py-6 px-1">{item.price}TND</td>
-              {item.products && item.products.length > 0 ? (
-                <td className="hidden md:block py-6 px-1">
-                  {item.products[0].title}
-                </td>
-              ) : (
-                <td className="hidden md:block py-6 px-1">No products</td>
-              )}
+              <td className="hidden md:block py-6 px-1">
+                {item.products[0].title}
+              </td>
               {session?.user.type === "owner" ? (
                 <td>
                   <form

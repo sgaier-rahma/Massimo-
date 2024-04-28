@@ -102,8 +102,8 @@ const AddCategoryPage = () => {
     } catch (err) {
       console.error(err);
     }
- 
   };
+
   return (
     <div className="p-4 lg:px-20 xl:px-40 flex items-center justify-center text-red-500">
       <form onSubmit={handleSubmit} className="flex flex-wrap gap-6">
